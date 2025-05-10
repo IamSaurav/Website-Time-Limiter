@@ -46,11 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function loadWebsites() {
     chrome.storage.local.get('websiteLimits', (data) => {
-      console.log('Loaded website limits:', data.websiteLimits);
       websiteList.innerHTML = '';
       const limits = data.websiteLimits || {};
       Object.entries(limits).forEach(([url, limit]) => {
-        const timeLeft = limit.timeLeft !== undefined ? limit.timeLeft : limit.totalTime;
+        const timeLeft = limit.timeLeft !== undefined ? limit.timeLeft : limit.originalLimit;
         const item = document.createElement('div');
         item.className = 'website-item';
         item.innerHTML = `
@@ -66,10 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
           chrome.storage.local.get('websiteLimits', (data) => {
             const limits = data.websiteLimits || {};
             delete limits[url];
-            chrome.storage.local.set({ websiteLimits: limits }, () => {
-              console.log(`Removed limit for ${url}`);
-              loadWebsites();
-            });
+            chrome.storage.local.set({ websiteLimits: limits }, loadWebsites);
           });
         });
       });
@@ -88,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hours = parseInt(hoursInput.value) || 0;
     const minutes = parseInt(minutesInput.value) || 0;
     const seconds = parseInt(secondsInput.value) || 0;
-    const totalTime = hours * 3600 + minutes * 60 + seconds;
+    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
     const error = validateInputs(url, hours, minutes, seconds);
     if (error) {
@@ -98,9 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     chrome.storage.local.get('websiteLimits', (data) => {
       const limits = data.websiteLimits || {};
-      limits[url] = { totalTime, timeLeft: totalTime, lastVisited: Date.now() };
+      const today = new Date().toDateString();
+      limits[url] = {
+        originalLimit: totalSeconds,
+        timeLeft: totalSeconds,
+        lastVisited: Date.now(),
+        resetDate: today
+      };
       chrome.storage.local.set({ websiteLimits: limits }, () => {
-        console.log(`Added limit for ${url}: ${totalTime} seconds`);
         websiteInput.value = '';
         hoursInput.value = '';
         minutesInput.value = '';
