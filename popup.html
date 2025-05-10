@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Time Limiter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 350px;
+      padding: 15px;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      font-size: 18px;
+      text-align: center;
+      color: #333;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .time-inputs {
+      display: flex;
+      gap: 10px;
+    }
+    .time-inputs input {
+      width: 80px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    #websiteList {
+      margin-top: 20px;
+    }
+    .website-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: white;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      word-wrap: break-word;
+    }
+    .website-item span {
+      flex: 1;
+      font-size: 14px;
+      overflow-wrap: break-word;
+      margin-right: 15px;
+    }
+    .website-item button {
+      background-color: #dc3545;
+      padding: 4px 8px;
+      font-size: 12px;
+      min-width: 60px;
+      border-radius: 4px;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .website-item button:hover {
+      background-color: #c82333;
+    }
+    .error {
+      color: #dc3545;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    .success {
+      color: #28a745;
+      font-size: 12px;
+      margin-top: 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Site Limit</h1>
+  <div class="input-group">
+    <label for="website">Website URL</label>
+    <input type="text" id="website" placeholder="e.g., facebook.com">
+  </div>
+  <div class="input-group">
+    <label>Time Limit</label>
+    <div class="time-inputs">
+      <input type="number" id="hours" min="0" placeholder="Hours">
+      <input type="number" id="minutes" min="0" max="59" placeholder="Minutes">
+      <input type="number" id="seconds" min="0" max="59" placeholder="Seconds">
+    </div>
+    <div id="error" class="error"></div>
+    <div id="success" class="success"></div>
+  </div>
+  <button id="addButton">Add Limit</button>
+  <div id="websiteList"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
