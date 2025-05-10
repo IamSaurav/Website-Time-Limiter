@@ -107,7 +107,7 @@ A Chrome extension to help you manage your time on specific websites by setting 
 
 ## Known Issues
 
-- **Timer Not Updating in Popup:** The timer in the popup UI does not update in real-time as expected. This issue is under investigation. A temporary workaround is to close and reopen the popup to see the updated time.
+When the daily quota is over the block page opens, by replacing the current page. Because of that when you try to ignore time for 1 min, 15 mins the pages refrshes, which is a bad experience.
 
 ---
 
