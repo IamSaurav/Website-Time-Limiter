@@ -30,16 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
       flex: 1;
     }
     .website-info strong {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
       color: #333;
     }
     .quota-info {
       display: block;
-      font-size: 12px;
+      font-size: 14px;
       color: #666;
       margin-top: 4px;
-      font-weight: 200;
+      font-weight: 400;
     }
     .website-item button {
       background-color: #ff4d4f;
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
       padding: 8px 16px;
       border-radius: 6px;
       cursor: pointer;
-      max-width: 80px;
-      font-size: 12px;
+      max-width: 100px;
+      font-size: 14px;
       font-weight: 500;
       text-align: center;
       transition: background-color 0.2s ease;
@@ -145,6 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
     return parts.length > 0 ? parts.join(' ') : '0s';
   }
 
+  // Listen for changes to websiteLimits in storage and refresh the UI
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes.websiteLimits) {
+      loadWebsites();
+    }
+  });
+
   addButton.addEventListener('click', () => {
     const url = normalizeUrl(websiteInput.value);
     const hours = parseInt(hoursInput.value) || 0;
@@ -173,10 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
         minutesInput.value = '';
         secondsInput.value = '';
         displaySuccess(`Time limit added for ${url}`);
-        loadWebsites();
+        loadWebsites(); // Immediately refresh the list after adding
       });
     });
   });
 
+  // Initial load
   loadWebsites();
 });
