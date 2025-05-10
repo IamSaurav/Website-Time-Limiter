@@ -22,6 +22,7 @@ setInterval(() => {
       const today = new Date().toDateString();
       const site = limits[hostname];
 
+      // Reset timeLeft once per day
       if (site.resetDate !== today) {
         site.resetDate = today;
         site.timeLeft = site.originalLimit || site.timeLeft;
@@ -44,7 +45,7 @@ setInterval(() => {
   });
 }, 1000);
 
-// Record reset date on navigation
+// Update lastVisited when navigation starts
 chrome.webNavigation.onBeforeNavigate.addListener((details) => {
   const hostname = extractHostname(details.url);
   if (!hostname) return;
@@ -58,7 +59,7 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
   });
 });
 
-// Handle ignore extension from blocked.html
+// Handle "ignore time" request from blocked.html
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'extendTime') {
     const { hostname, seconds } = message;
@@ -74,6 +75,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ success: false });
       }
     });
-    return true;
+    return true; // Keeps sendResponse channel open
   }
 });

@@ -8,6 +8,62 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorDiv = document.getElementById('error');
   const successDiv = document.getElementById('success');
 
+  // Inject CSS for professional styling
+  const style = document.createElement('style');
+  style.textContent = `
+    .website-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      margin: 10px 0;
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.2s ease;
+    }
+    .website-item:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .website-info {
+      flex: 1;
+    }
+    .website-info strong {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+    .quota-info {
+      display: block;
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+      font-weight: 200;
+    }
+    .website-item button {
+      background-color: #ff4d4f;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      max-width: 80px;
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      transition: background-color 0.2s ease;
+    }
+    .website-item button:hover {
+      background-color: #ff7875;
+    }
+    #websiteList {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  `;
+  document.head.appendChild(style);
+
   function displayError(message) {
     errorDiv.textContent = message;
     successDiv.textContent = '';
@@ -52,10 +108,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeLeft = limit.timeLeft !== undefined ? limit.timeLeft : limit.originalLimit;
         const item = document.createElement('div');
         item.className = 'website-item';
+        const dailyQuota = formatTime(limit.originalLimit || timeLeft);
         item.innerHTML = `
-          <span>${url} (${formatTime(timeLeft)} remaining)</span>
+          <div class="website-info">
+            <strong>${url}</strong>
+            <span class="quota-info">Daily Quota: ${dailyQuota}</span>
+            <span class="quota-info">Time Left: ${formatTime(timeLeft)}</span>
+          </div>
           <button data-url="${url}">Remove</button>
         `;
+
         websiteList.appendChild(item);
       });
 
@@ -76,7 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = seconds % 60;
-    return `${h}h ${m}m ${s}s`;
+    const parts = [];
+    if (h > 0) parts.push(`${h}h`);
+    if (m > 0) parts.push(`${m}m`);
+    if (s > 0) parts.push(`${s}s`);
+    return parts.length > 0 ? parts.join(' ') : '0s';
   }
 
   addButton.addEventListener('click', () => {
