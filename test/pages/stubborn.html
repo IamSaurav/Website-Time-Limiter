@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Stubborn header</title>
+  <style>
+    body { font: 16px system-ui; margin: 0; padding-top: 70px; }
+    /* A site that pins its own bar on top with the largest z-index it can think of. */
+    #bar { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #1877f2; color: #fff;
+           display: flex; align-items: center; padding: 0 20px; z-index: 2147483647; }
+    main { padding: 20px; }
+  </style>
+</head>
+<body>
+  <div id="bar">Stubborn fixed header</div>
+  <main><h1>Time waster</h1><p>A stand-in for the site you are trying to stay off.</p></main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Clingy</title></head>
+<body style="font:16px system-ui;margin:40px">
+  <h1>Clingy</h1>
+  <p>A stand-in for a site that asks you to confirm before you leave.</p>
+  <video id="clip" width="320" controls muted loop></video>
+  <script>
+    // What a real site does to keep you: a draft, a cart, an unsaved form.
+    window.addEventListener('beforeunload', (event) => {
+      event.preventDefault();
+      event.returnValue = '';
+    });
+    window.onbeforeunload = () => '';
+  </script>
+</body>
+</html>

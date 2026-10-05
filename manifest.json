@@ -1,14 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Site Limit",
-  "version": "1.0",
-  "description": "Set time limits for websites and block access after the limit is reached.",
+  "version": "1.1",
+  "description": "Set daily time limits for websites and block access once the limit is reached.",
+  "minimum_chrome_version": "116",
   "permissions": [
     "storage",
-    "webNavigation",
     "tabs",
-    "activeTab",
-    "scripting"
+    "scripting",
+    "idle",
+    "alarms"
   ],
   "host_permissions": [
     "http://*/*",
